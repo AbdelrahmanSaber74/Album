@@ -88,7 +88,7 @@ class AlbumController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->back()->with('updata' , 'تم تعديل الالبوم بنجاح');
+        return redirect()->back()->with('update' , 'تم تعديل الالبوم بنجاح');
 
     }
 
