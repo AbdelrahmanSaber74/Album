@@ -16,11 +16,18 @@ class ImageController extends Controller
         // $path = $request->file('photo')->storeAs('images' , $image , 'public');
 
         $image = $this->uploadImage($request , 'images');
+
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ] );
+
         image::create([
         'name' =>$request->name ,
-         'album_id' => $request->album_id ,
+        'album_id' => $request->album_id ,
         'path' => $image ,
         ]);
+
         return redirect()->back()->with('Add' , 'تم اضافة الصورة بنجاح');
     }
 

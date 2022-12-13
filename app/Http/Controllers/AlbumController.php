@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 use App\Models\Album;
 use App\Models\image;
 use Illuminate\Http\Request;
-
+use App\DataTable\AlbumDataTable;
 class AlbumController extends Controller
 {
 
     public function index () {
+
+
+
+
+
+
 
         $allImage = image::all()->count();
 
@@ -24,7 +30,6 @@ class AlbumController extends Controller
             $percent_4 = number_format( ($album_4 / $allImage) * 100 , 2 )   ;
     
             
-    
             $chartjs = app()->chartjs
             ->name('pieChartTest')
             ->type('pie')
@@ -40,17 +45,16 @@ class AlbumController extends Controller
             ])
             ->options([]);
     
-    
-        
-
-
 
         
         $albums = album::all();
 
         return view('index' , compact('albums' , 'chartjs'));
 
-        }
+ }
+
+
+
 
     public function imagesAlbum($id)
     {
@@ -62,6 +66,15 @@ class AlbumController extends Controller
     
 
     public function store(request $request){
+
+        $validated = $request->validate([
+            'name' => 'required|max:50',
+        ], [
+            'name.required' =>  'يرجي اضافة اسم الاليوم' ,
+            'name.max' =>  'اسم الالبوم تعدي العدد المسوح' ,
+        ]);
+    
+
         Album::create([
             'name' => $request->name ,
         ]) ;
@@ -71,15 +84,21 @@ class AlbumController extends Controller
     public function update(request $request)
     {
 
-        $id = $request->pro_id;
 
+
+        $id = $request->pro_id;
         $album = Album::find($id);
+
+
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+        ]);
 
         $album->update([
             'name' => $request->name,
-
         ]);
-        return redirect()->back()->with('Add' , 'تم تعديل الالبوم بنجاح');
+
+        return redirect()->back()->with('updata' , 'تم تعديل الالبوم بنجاح');
 
 
     }
@@ -89,7 +108,7 @@ class AlbumController extends Controller
     {
         $id = $request->pro_id;
         album::find($id)->delete();
-        return redirect()->back()->with('Add' , 'تم حذف الالبوم بنجاح');
+        return redirect()->back()->with('delete' , 'تم حذف الالبوم بنجاح');
 
     }
 
@@ -110,7 +129,6 @@ class AlbumController extends Controller
     }
         
 
-        
         
 }
     

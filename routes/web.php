@@ -25,7 +25,6 @@ route::get('images_album/{id}' ,  'imagesAlbum')->name('images_album');
 route::get('store' , 'store')->name('album_store');
 route::post('update' , 'update')->name('album_update');
 route::post('album/destory' , 'destory')->name('album_destory');
-route::post('album/destory' , 'destory')->name('album_destory');
 route::post('album/transfer' , 'transfer')->name('transfer');
 
 });

@@ -27,8 +27,8 @@
                         <div class="modal-body">
 							<input type="hidden" name="album_id" value="{{$album->id}}">
                             <p>برجاء ادخال اسم الصورة</p><br>
-                            <input class="form-control" name="name" id="name" type="text"  required> <br>
-							<input class="form-control" name="photo" id="photo" type="file"  required>
+                            <input class="form-control" name="name" id="name" type="text" required > <br>
+							<input class="form-control" name="photo" id="photo" type="file" required  >
 
                         </div>
                         <div class="modal-footer">
@@ -65,14 +65,16 @@
 
 @section('content')
 
-@if (session()->has('Error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>{{ session()->get('Error') }}</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
 @endif
+
 
 @if (session()->has('Add'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">

@@ -31,7 +31,7 @@
                         @csrf
                         <div class="modal-body">
                             <p>برجاء ادخال اسم الالبوم</p><br>
-                            <input class="form-control" name="name" id="name" type="text" required > <br>
+                            <input class="form-control" name="name" id="name" type="text"  required> <br>
 
                         </div>
                         <div class="modal-footer">
@@ -164,6 +164,18 @@
 @endsection
 @section('content')
 
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+ 
+
+
 @if (session()->has('Error'))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>{{ session()->get('Error') }}</strong>
@@ -176,6 +188,25 @@
 @if (session()->has('Add'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>{{ session()->get('Add') }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
+@if (session()->has('update'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ session()->get('update') }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
+
+@if (session()->has('delete'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{ session()->get('delete') }}</strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -213,7 +244,7 @@
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
-									<table class="table table-striped mg-b-0 text-md-nowrap">
+									<table  id="example1" class="table table-striped mg-b-0 text-md-nowrap">
 										<thead>
 											<tr>
 												<th>ID</th>
@@ -280,7 +311,8 @@
                         <div style="width:75%;">
                             {!! $chartjs->render() !!}
                         </div> 
-                    
+
+
         
                 </div>
             </div>
@@ -298,6 +330,34 @@
 
 @endsection
 @section('js')
+
+
+<!-- Internal Data tables -->
+<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
+<!--Internal  Datatable js -->
+<script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+
+<!--Internal  Notify js -->
+<script src="{{URL::asset('assets/plugins/notify/js/notifIt.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/notify/js/notifit-custom.js')}}"></script>
+<!--Internal  Notify js -->
+
+
 
 <!--Internal  Chart.bundle js -->
 <script src="{{URL::asset('assets/plugins/chart.js/Chart.bundle.min.js')}}"></script>
@@ -323,7 +383,6 @@
 
 
 <script>
-
     $('#modeledit').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
         var name = button.data('name')
@@ -332,7 +391,6 @@
         modal.find('.modal-body #name').val(name);
         modal.find('.modal-body #pro_id').val(pro_id);
     })
-
 	$('#modeldelete').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var pro_id = button.data('pro_id')
@@ -341,7 +399,6 @@
             modal.find('.modal-body #pro_id').val(pro_id);
             modal.find('.modal-body #name').val(name);
         })
-
         $('#modelother').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var pro_id = button.data('pro_id')
