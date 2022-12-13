@@ -10,12 +10,6 @@ class AlbumController extends Controller
 
     public function index () {
 
-
-
-
-
-
-
         $allImage = image::all()->count();
 
         $album_1 = image::where('album_id' , 1)->count();
@@ -53,9 +47,6 @@ class AlbumController extends Controller
 
  }
 
-
-
-
     public function imagesAlbum($id)
     {
         $album = album::find($id) ;
@@ -63,8 +54,7 @@ class AlbumController extends Controller
         return view('images_album' , compact('album' , 'images'));
     }
 
-    
-
+  
     public function store(request $request){
 
         $validated = $request->validate([
@@ -100,7 +90,6 @@ class AlbumController extends Controller
 
         return redirect()->back()->with('updata' , 'تم تعديل الالبوم بنجاح');
 
-
     }
 
 
@@ -129,6 +118,6 @@ class AlbumController extends Controller
     }
         
 
-        
+ 
 }
     
